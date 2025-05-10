@@ -177,6 +177,26 @@ namespace Aigent.Configuration
                 _logger.Log(LogLevel.Information, $"Shutting down placeholder agent: {Name}");
                 return Task.CompletedTask;
             }
+
+            private bool _disposed = false;
+
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!_disposed)
+                {
+                    if (disposing)
+                    {
+                        Shutdown().GetAwaiter().GetResult();
+                    }
+                    _disposed = true;
+                }
+            }
         }
     }
 }

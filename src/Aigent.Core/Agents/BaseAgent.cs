@@ -28,9 +28,14 @@ namespace Aigent.Core
         public abstract AgentType Type { get; }
         
         /// <summary>
+        /// Status of the agent
+        /// </summary>
+        public AgentStatus Status { get; protected set; } = AgentStatus.Initializing;
+        
+        /// <summary>
         /// Agent capabilities including supported actions and skill levels
         /// </summary>
-        public AgentCapabilities Capabilities { get; protected set; } = new();
+        public AgentCapabilities Capabilities { get; protected set; } = new AgentCapabilities();
 
         /// <summary>
         /// Memory service for storing and retrieving context
@@ -97,11 +102,13 @@ namespace Aigent.Core
                 _messageBus.Subscribe($"agent.{Id}.command", HandleMessage);
                 _logger.Log(LogLevel.Information, $"Agent {Name} initialized");
                 
+                Status = AgentStatus.Ready;
                 _metrics?.RecordMetric($"agent.{Id}.initialization", 1.0);
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, $"Error initializing agent {Name}: {ex.Message}");
+                Status = AgentStatus.Error;
+                _logger.LogError($"Error initializing agent {Name}: {ex.Message}", ex);
                 _metrics?.RecordMetric($"agent.{Id}.initialization_error", 1.0);
                 throw;
             }
@@ -140,6 +147,7 @@ namespace Aigent.Core
             
             try
             {
+                Status = AgentStatus.ShuttingDown;
                 _logger.Log(LogLevel.Information, $"Shutting down agent {Name}");
                 await _memory.Flush();
                 _messageBus.Unsubscribe($"agent.{Id}.command", HandleMessage);
@@ -148,7 +156,8 @@ namespace Aigent.Core
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, $"Error shutting down agent {Name}: {ex.Message}");
+                Status = AgentStatus.Error;
+                _logger.LogError($"Error shutting down agent {Name}: {ex.Message}", ex);
                 _metrics?.RecordMetric($"agent.{Id}.shutdown_error", 1.0);
                 throw;
             }

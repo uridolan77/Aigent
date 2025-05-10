@@ -18,12 +18,12 @@ namespace Aigent.Core
         /// Type of the agent
         /// </summary>
         public override AgentType Type => AgentType.BDI;
-        
+
         private readonly IBeliefsManager _beliefsManager;
         private readonly IDesireGenerator _desireGenerator;
         private readonly IIntentionSelector _intentionSelector;
         private readonly IPlanLibrary _planLibrary;
-        
+
         /// <summary>
         /// Current intentions of the agent
         /// </summary>
@@ -60,7 +60,7 @@ namespace Aigent.Core
             _desireGenerator = desireGenerator ?? throw new ArgumentNullException(nameof(desireGenerator));
             _intentionSelector = intentionSelector ?? throw new ArgumentNullException(nameof(intentionSelector));
             _planLibrary = planLibrary ?? throw new ArgumentNullException(nameof(planLibrary));
-            
+
             Capabilities = new AgentCapabilities
             {
                 SupportedActionTypes = new List<string> { "Reasoning", "Planning", "Learning", "Adaptation" },
@@ -82,7 +82,7 @@ namespace Aigent.Core
         public override async Task Initialize()
         {
             await base.Initialize();
-            
+
             // Initialize beliefs from memory
             var storedBeliefs = await _memory.RetrieveContext<List<Belief>>("beliefs");
             if (storedBeliefs != null)
@@ -92,14 +92,14 @@ namespace Aigent.Core
                     _beliefsManager.AddBelief(belief);
                 }
             }
-            
+
             // Initialize intentions from memory
             var storedIntentions = await _memory.RetrieveContext<List<Intention>>("intentions");
             if (storedIntentions != null)
             {
                 _currentIntentions.AddRange(storedIntentions);
             }
-            
+
             _logger.Log(LogLevel.Information, $"BDI agent {Name} initialized with {_beliefsManager.GetBeliefs().Count} beliefs and {_currentIntentions.Count} intentions");
         }
 
@@ -111,56 +111,56 @@ namespace Aigent.Core
         public override async Task<IAction> DecideAction(EnvironmentState state)
         {
             _metrics?.StartOperation($"agent_{Id}_decide_action");
-            
+
             try
             {
                 // Update beliefs based on percepts
                 UpdateBeliefs(state);
-                
+
                 // Generate desires based on beliefs
                 var desires = _desireGenerator.GenerateDesires(_beliefsManager.GetBeliefs());
-                
+
                 // Filter and prioritize intentions
                 _currentIntentions.RemoveAll(i => i.IsCompleted || i.IsImpossible);
-                
+
                 // Select new intentions from desires if needed
                 if (_currentIntentions.Count < 3) // Limit number of concurrent intentions
                 {
                     var newIntentions = _intentionSelector.SelectIntentions(
-                        desires, 
-                        _currentIntentions, 
+                        desires,
+                        _currentIntentions,
                         _beliefsManager.GetBeliefs());
-                    
+
                     _currentIntentions.AddRange(newIntentions);
-                    
+
                     // Store updated intentions in memory
                     await _memory.StoreContext("intentions", _currentIntentions);
                 }
-                
+
                 // Select the highest priority intention
                 var activeIntention = _currentIntentions
                     .OrderByDescending(i => i.Priority)
                     .FirstOrDefault();
-                
+
                 if (activeIntention == null)
                 {
                     _logger.Log(LogLevel.Information, $"Agent {Name} has no active intentions");
                     return new TextOutputAction("I don't have any active goals at the moment.");
                 }
-                
+
                 // Get plan for the intention
                 var plan = _planLibrary.GetPlan(activeIntention, _beliefsManager.GetBeliefs());
-                
+
                 if (plan == null)
                 {
                     _logger.Log(LogLevel.Warning, $"No plan found for intention: {activeIntention.Goal}");
                     activeIntention.IsImpossible = true;
                     return new TextOutputAction($"I don't know how to achieve the goal: {activeIntention.Goal}");
                 }
-                
+
                 // Get next action from plan
                 var action = plan.GetNextAction();
-                
+
                 // Validate the action
                 var validationResult = await _safetyValidator.ValidateAction(action);
                 if (validationResult.IsValid)
@@ -173,19 +173,19 @@ namespace Aigent.Core
                 {
                     _logger.Log(LogLevel.Warning, $"Agent {Name} action {action.ActionType} failed validation: {validationResult.Message}");
                     _metrics?.RecordMetric($"agent.{Id}.action_validation_failure", 1.0);
-                    
+
                     // Mark the plan as failed
                     plan.MarkFailed(validationResult.Message);
-                    
+
                     // Try to find an alternative plan
                     var alternativePlan = _planLibrary.GetAlternativePlan(activeIntention, _beliefsManager.GetBeliefs(), plan);
-                    
+
                     if (alternativePlan != null)
                     {
                         _logger.Log(LogLevel.Information, $"Found alternative plan for intention: {activeIntention.Goal}");
                         return alternativePlan.GetNextAction();
                     }
-                    
+
                     // No alternative plan found
                     activeIntention.IsImpossible = true;
                     return new TextOutputAction($"I can't find a safe way to achieve the goal: {activeIntention.Goal}");
@@ -195,7 +195,7 @@ namespace Aigent.Core
             {
                 _logger.LogError($"Error in BDI agent decision making: {ex.Message}", ex);
                 _metrics?.RecordMetric($"agent.{Id}.decision_error", 1.0);
-                
+
                 return new TextOutputAction("I encountered an error in my reasoning process.");
             }
             finally
@@ -213,7 +213,7 @@ namespace Aigent.Core
         public override async Task Learn(EnvironmentState state, IAction action, ActionResult result)
         {
             _metrics?.StartOperation($"agent_{Id}_learn");
-            
+
             try
             {
                 // Update beliefs based on action result
@@ -226,11 +226,11 @@ namespace Aigent.Core
                         Confidence = 0.9,
                         Timestamp = DateTime.UtcNow
                     });
-                    
+
                     // Update intention status
-                    var relatedIntention = _currentIntentions.FirstOrDefault(i => 
+                    var relatedIntention = _currentIntentions.FirstOrDefault(i =>
                         _planLibrary.GetPlan(i, _beliefsManager.GetBeliefs())?.Actions.Contains(action) == true);
-                    
+
                     if (relatedIntention != null)
                     {
                         relatedIntention.Progress += 0.2;
@@ -250,24 +250,24 @@ namespace Aigent.Core
                         Confidence = 0.7,
                         Timestamp = DateTime.UtcNow
                     });
-                    
+
                     // Update plan status
-                    var relatedIntention = _currentIntentions.FirstOrDefault(i => 
+                    var relatedIntention = _currentIntentions.FirstOrDefault(i =>
                         _planLibrary.GetPlan(i, _beliefsManager.GetBeliefs())?.Actions.Contains(action) == true);
-                    
+
                     if (relatedIntention != null)
                     {
                         var plan = _planLibrary.GetPlan(relatedIntention, _beliefsManager.GetBeliefs());
                         plan?.MarkFailed(result.Message);
                     }
                 }
-                
+
                 // Store updated beliefs in memory
                 await _memory.StoreContext("beliefs", _beliefsManager.GetBeliefs());
-                
+
                 // Store updated intentions in memory
                 await _memory.StoreContext("intentions", _currentIntentions);
-                
+
                 _logger.Log(LogLevel.Debug, $"BDI agent {Name} learned from action {action.ActionType}");
                 _metrics?.RecordMetric($"agent.{Id}.learning_events", 1.0);
             }
@@ -294,83 +294,5 @@ namespace Aigent.Core
                 });
             }
         }
-    }
-
-    /// <summary>
-    /// Represents a belief in the BDI model
-    /// </summary>
-    public class Belief
-    {
-        /// <summary>
-        /// Predicate of the belief
-        /// </summary>
-        public string Predicate { get; set; }
-        
-        /// <summary>
-        /// Value of the belief
-        /// </summary>
-        public object Value { get; set; }
-        
-        /// <summary>
-        /// Confidence in the belief (0.0 to 1.0)
-        /// </summary>
-        public double Confidence { get; set; }
-        
-        /// <summary>
-        /// When the belief was formed
-        /// </summary>
-        public DateTime Timestamp { get; set; }
-    }
-
-    /// <summary>
-    /// Represents a desire in the BDI model
-    /// </summary>
-    public class Desire
-    {
-        /// <summary>
-        /// Goal of the desire
-        /// </summary>
-        public string Goal { get; set; }
-        
-        /// <summary>
-        /// Importance of the desire (0.0 to 1.0)
-        /// </summary>
-        public double Importance { get; set; }
-        
-        /// <summary>
-        /// Urgency of the desire (0.0 to 1.0)
-        /// </summary>
-        public double Urgency { get; set; }
-    }
-
-    /// <summary>
-    /// Represents an intention in the BDI model
-    /// </summary>
-    public class Intention
-    {
-        /// <summary>
-        /// Goal of the intention
-        /// </summary>
-        public string Goal { get; set; }
-        
-        /// <summary>
-        /// Priority of the intention (0.0 to 1.0)
-        /// </summary>
-        public double Priority { get; set; }
-        
-        /// <summary>
-        /// Progress towards completing the intention (0.0 to 1.0)
-        /// </summary>
-        public double Progress { get; set; }
-        
-        /// <summary>
-        /// Whether the intention is completed
-        /// </summary>
-        public bool IsCompleted { get; set; }
-        
-        /// <summary>
-        /// Whether the intention is impossible to achieve
-        /// </summary>
-        public bool IsImpossible { get; set; }
     }
 }

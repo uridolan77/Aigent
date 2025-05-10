@@ -3,53 +3,59 @@ using System;
 namespace Aigent.Monitoring
 {
     /// <summary>
-    /// Log levels
+    /// Log severity levels
     /// </summary>
     public enum LogLevel
     {
         /// <summary>
-        /// Debug level
+        /// Detailed debug information
         /// </summary>
         Debug,
-        
+
         /// <summary>
-        /// Information level
+        /// Interesting events
         /// </summary>
         Information,
-        
+
         /// <summary>
-        /// Warning level
+        /// Non-critical issues
         /// </summary>
         Warning,
-        
+
         /// <summary>
-        /// Error level
+        /// Critical issues
         /// </summary>
         Error,
-        
+
         /// <summary>
-        /// Critical level
+        /// Fatal issues that cause the application to crash
         /// </summary>
         Critical
     }
-    
+
     /// <summary>
-    /// Interface for loggers
+    /// Interface for logging services
     /// </summary>
     public interface ILogger
     {
         /// <summary>
-        /// Logs a message
+        /// Logs a message with the specified log level
         /// </summary>
-        /// <param name="level">Log level</param>
+        /// <param name="level">Severity level of the log</param>
         /// <param name="message">Message to log</param>
         void Log(LogLevel level, string message);
-        
+
         /// <summary>
-        /// Logs an error message with exception
+        /// Logs an error message with exception details
         /// </summary>
         /// <param name="message">Error message</param>
-        /// <param name="exception">Exception</param>
+        /// <param name="exception">Exception that occurred</param>
         void LogError(string message, Exception exception);
+
+        /// <summary>
+        /// Logs a warning message
+        /// </summary>
+        /// <param name="message">Warning message</param>
+        void LogWarning(string message);
     }
 }
