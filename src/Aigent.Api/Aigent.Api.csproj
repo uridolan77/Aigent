@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>Aigent.Api</RootNamespace>
+    <AssemblyName>Aigent.Api</AssemblyName>
+    <Description>Web API for the Aigent Generic Agential System</Description>
+    <UserSecretsId>aigent-api-secrets</UserSecretsId>
+    <TargetFramework>net9.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Aigent.Core\Aigent.Core.csproj" />
+    <ProjectReference Include="..\Aigent.Memory\Aigent.Memory.csproj" />
+    <ProjectReference Include="..\Aigent.Safety\Aigent.Safety.csproj" />
+    <ProjectReference Include="..\Aigent.Communication\Aigent.Communication.csproj" />
+    <ProjectReference Include="..\Aigent.Monitoring\Aigent.Monitoring.csproj" />
+    <ProjectReference Include="..\Aigent.Configuration\Aigent.Configuration.csproj" />
+    <ProjectReference Include="..\Aigent.Orchestration\Aigent.Orchestration.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0-preview.5.24302.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.4.1" />
+  </ItemGroup>
+
+</Project>

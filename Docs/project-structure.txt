@@ -1,0 +1,667 @@
+// Solution Structure
+// AgentSystem.sln
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1234567890}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSystem.Core", "src\AgentSystem.Core\AgentSystem.Core.csproj", "{11111111}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSystem.Agents", "src\AgentSystem.Agents\AgentSystem.Agents.csproj", "{22222222}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSystem.Memory", "src\AgentSystem.Memory\AgentSystem.Memory.csproj", "{33333333}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSystem.Safety", "src\AgentSystem.Safety\AgentSystem.Safety.csproj", "{44444444}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSystem.Orchestration", "src\AgentSystem.Orchestration\AgentSystem.Orchestration.csproj", "{55555555}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSystem.Communication", "src\AgentSystem.Communication\AgentSystem.Communication.csproj", "{66666666}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSystem.Monitoring", "src\AgentSystem.Monitoring\AgentSystem.Monitoring.csproj", "{77777777}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSystem.Security", "src\AgentSystem.Security\AgentSystem.Security.csproj", "{88888888}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSystem.ML", "src\AgentSystem.ML\AgentSystem.ML.csproj", "{99999999}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSystem.Api", "src\AgentSystem.Api\AgentSystem.Api.csproj", "{AAAAAAAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSystem.Examples", "src\AgentSystem.Examples\AgentSystem.Examples.csproj", "{BBBBBBBB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CCCCCCCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSystem.Core.Tests", "tests\AgentSystem.Core.Tests\AgentSystem.Core.Tests.csproj", "{DDDDDDDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSystem.Integration.Tests", "tests\AgentSystem.Integration.Tests\AgentSystem.Integration.Tests.csproj", "{EEEEEEEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSystem.Benchmarks", "tests\AgentSystem.Benchmarks\AgentSystem.Benchmarks.csproj", "{FFFFFFFF}"
+EndProject
+Global
+    GlobalSection(SolutionConfigurationPlatforms) = preSolution
+        Debug|Any CPU = Debug|Any CPU
+        Release|Any CPU = Release|Any CPU
+    EndGlobalSection
+    GlobalSection(ProjectConfigurationPlatforms) = postSolution
+        {11111111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {11111111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {11111111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {11111111}.Release|Any CPU.Build.0 = Release|Any CPU
+    EndGlobalSection
+EndGlobal
+
+// Directory Structure
+AgentSystem/
+├── .github/
+│   └── workflows/
+│       ├── main.yml
+│       ├── release.yml
+│       └── codeql-analysis.yml
+├── src/
+│   ├── AgentSystem.Core/
+│   │   ├── Abstractions/
+│   │   ├── Environment/
+│   │   ├── Actions/
+│   │   └── AgentSystem.Core.csproj
+│   ├── AgentSystem.Agents/
+│   │   ├── Reactive/
+│   │   ├── Deliberative/
+│   │   ├── Hybrid/
+│   │   └── AgentSystem.Agents.csproj
+│   ├── AgentSystem.Memory/
+│   │   ├── InMemory/
+│   │   ├── Redis/
+│   │   ├── Sql/
+│   │   └── AgentSystem.Memory.csproj
+│   ├── AgentSystem.Safety/
+│   │   ├── Guardrails/
+│   │   ├── Ethics/
+│   │   ├── Validators/
+│   │   └── AgentSystem.Safety.csproj
+│   ├── AgentSystem.Orchestration/
+│   │   ├── Workflows/
+│   │   ├── Orchestrators/
+│   │   └── AgentSystem.Orchestration.csproj
+│   ├── AgentSystem.Communication/
+│   │   ├── MessageBus/
+│   │   ├── Events/
+│   │   └── AgentSystem.Communication.csproj
+│   ├── AgentSystem.Monitoring/
+│   │   ├── Metrics/
+│   │   ├── Tracing/
+│   │   ├── Logging/
+│   │   └── AgentSystem.Monitoring.csproj
+│   ├── AgentSystem.Security/
+│   │   ├── Auth/
+│   │   ├── Secrets/
+│   │   ├── Anonymization/
+│   │   └── AgentSystem.Security.csproj
+│   ├── AgentSystem.ML/
+│   │   ├── Models/
+│   │   ├── Training/
+│   │   ├── Inference/
+│   │   └── AgentSystem.ML.csproj
+│   ├── AgentSystem.Api/
+│   │   ├── Controllers/
+│   │   ├── Middleware/
+│   │   ├── HealthChecks/
+│   │   └── AgentSystem.Api.csproj
+│   └── AgentSystem.Examples/
+│       ├── CustomerSupport/
+│       ├── Trading/
+│       ├── IoT/
+│       └── AgentSystem.Examples.csproj
+├── tests/
+│   ├── AgentSystem.Core.Tests/
+│   ├── AgentSystem.Integration.Tests/
+│   └── AgentSystem.Benchmarks/
+├── docs/
+│   ├── architecture/
+│   ├── api/
+│   ├── deployment/
+│   └── examples/
+├── samples/
+│   ├── SimpleAgent/
+│   ├── MultiAgentSystem/
+│   └── MLAgent/
+├── k8s/
+│   ├── base/
+│   ├── overlays/
+│   └── README.md
+├── docker/
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   └── docker-compose.override.yml
+├── scripts/
+│   ├── build.ps1
+│   ├── test.ps1
+│   └── deploy.ps1
+├── .editorconfig
+├── .gitignore
+├── Directory.Build.props
+├── Directory.Packages.props
+├── global.json
+├── README.md
+├── CONTRIBUTING.md
+├── LICENSE
+└── AgentSystem.sln
+
+// Main Project File Templates
+
+// AgentSystem.Core.csproj
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <IsPackable>true</IsPackable>
+    <PackageId>AgentSystem.Core</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Agent System Team</Authors>
+    <Description>Core abstractions for the Agent System</Description>
+    <PackageTags>agent;ai;system</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="System.Text.Json" />
+  </ItemGroup>
+</Project>
+
+// Directory.Build.props
+<Project>
+  <PropertyGroup>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <Authors>Agent System Team</Authors>
+    <Company>AgentSystem</Company>
+    <Product>Agent System</Product>
+    <Copyright>Copyright © AgentSystem 2024</Copyright>
+    <RepositoryUrl>https://github.com/your-org/agent-system</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+  </ItemGroup>
+</Project>
+
+// Directory.Packages.props
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <!-- Microsoft packages -->
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.6" />
+    
+    <!-- ASP.NET Core -->
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    
+    <!-- Entity Framework -->
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="6.0.15" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.15" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.15" />
+    
+    <!-- Azure -->
+    <PackageVersion Include="Azure.Identity" Version="1.8.2" />
+    <PackageVersion Include="Azure.Security.KeyVault.Secrets" Version="4.5.0" />
+    <PackageVersion Include="Azure.AI.TextAnalytics" Version="5.3.0" />
+    <PackageVersion Include="Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime" Version="3.1.0" />
+    
+    <!-- Machine Learning -->
+    <PackageVersion Include="Microsoft.ML" Version="2.0.1" />
+    <PackageVersion Include="Microsoft.ML.OnnxRuntime" Version="1.14.1" />
+    <PackageVersion Include="TensorFlow.NET" Version="0.100.2" />
+    
+    <!-- Caching and Storage -->
+    <PackageVersion Include="StackExchange.Redis" Version="2.6.104" />
+    <PackageVersion Include="MongoDB.Driver" Version="2.19.1" />
+    
+    <!-- Messaging -->
+    <PackageVersion Include="RabbitMQ.Client" Version="6.5.0" />
+    <PackageVersion Include="Azure.Messaging.ServiceBus" Version="7.13.1" />
+    
+    <!-- Monitoring -->
+    <PackageVersion Include="OpenTelemetry" Version="1.4.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.4.0" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.4.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.14" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9.14" />
+    <PackageVersion Include="Microsoft.ApplicationInsights" Version="2.21.0" />
+    
+    <!-- Security -->
+    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.27.0" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
+    
+    <!-- Resilience -->
+    <PackageVersion Include="Polly" Version="7.2.3" />
+    <PackageVersion Include="Polly.Extensions.Http" Version="3.0.0" />
+    
+    <!-- Serialization -->
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageVersion Include="System.Text.Json" Version="6.0.7" />
+    <PackageVersion Include="MessagePack" Version="2.5.108" />
+    
+    <!-- Testing -->
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+    <PackageVersion Include="xunit" Version="2.4.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5" />
+    <PackageVersion Include="Moq" Version="4.18.4" />
+    <PackageVersion Include="FluentAssertions" Version="6.11.0" />
+    <PackageVersion Include="coverlet.collector" Version="3.2.0" />
+    <PackageVersion Include="BenchmarkDotNet" Version="0.13.5" />
+    
+    <!-- Health Checks -->
+    <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="6.0.4" />
+    <PackageVersion Include="AspNetCore.HealthChecks.SqlServer" Version="6.0.2" />
+    <PackageVersion Include="AspNetCore.HealthChecks.UI" Version="6.0.5" />
+    <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.5" />
+    <PackageVersion Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="6.0.5" />
+    
+    <!-- Third-party -->
+    <PackageVersion Include="Serilog" Version="2.12.0" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="6.1.0" />
+    <PackageVersion Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageVersion Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
+    <PackageVersion Include="AutoMapper" Version="12.0.1" />
+    <PackageVersion Include="FluentValidation" Version="11.5.2" />
+    <PackageVersion Include="Humanizer" Version="2.14.1" />
+    <PackageVersion Include="CsvHelper" Version="30.0.1" />
+    
+    <!-- Source Generators -->
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.3" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
+  </ItemGroup>
+</Project>
+
+// global.json
+{
+  "sdk": {
+    "version": "6.0.408",
+    "rollForward": "latestMinor"
+  }
+}
+
+// .editorconfig
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = crlf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{cs,csx,vb,vbx}]
+indent_size = 4
+insert_final_newline = true
+charset = utf-8-bom
+
+[*.{json,yml,yaml}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+# C# coding conventions
+[*.cs]
+# New line preferences
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_between_query_expression_clauses = true
+
+# Indentation preferences
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_indent_labels = flush_left
+
+# Space preferences
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
+csharp_space_between_method_call_name_and_opening_parenthesis = false
+csharp_space_before_colon_in_inheritance_clause = true
+csharp_space_after_colon_in_inheritance_clause = true
+csharp_space_around_binary_operators = before_and_after
+csharp_space_between_method_declaration_name_and_open_parenthesis = false
+csharp_space_between_method_call_empty_parameter_list_parentheses = false
+csharp_space_after_comma = true
+csharp_space_before_comma = false
+csharp_space_after_dot = false
+csharp_space_before_dot = false
+csharp_space_after_semicolon_in_for_statement = true
+csharp_space_before_semicolon_in_for_statement = false
+csharp_space_around_declaration_statements = false
+csharp_space_before_open_square_brackets = false
+csharp_space_between_empty_square_brackets = false
+csharp_space_between_square_brackets = false
+
+# Wrapping preferences
+csharp_preserve_single_line_statements = true
+csharp_preserve_single_line_blocks = true
+
+# Using directive preferences
+csharp_using_directive_placement = outside_namespace
+
+# Style preferences
+csharp_prefer_braces = true:warning
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_namespace_declarations = file_scoped:warning
+csharp_style_prefer_method_group_conversion = true:suggestion
+csharp_style_expression_bodied_methods = false:none
+csharp_style_expression_bodied_constructors = false:none
+csharp_style_expression_bodied_operators = false:none
+csharp_style_expression_bodied_properties = true:suggestion
+csharp_style_expression_bodied_indexers = true:suggestion
+csharp_style_expression_bodied_accessors = true:suggestion
+
+# Pattern matching preferences
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+csharp_style_prefer_switch_expression = true:suggestion
+csharp_style_prefer_pattern_matching = true:suggestion
+csharp_style_prefer_not_pattern = true:suggestion
+
+# Null-checking preferences
+csharp_style_throw_expression = true:suggestion
+csharp_style_conditional_delegate_call = true:suggestion
+
+# Modifier preferences
+csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:suggestion
+
+# Code-block preferences
+csharp_prefer_static_local_function = true:suggestion
+csharp_prefer_simple_using_statement = true:suggestion
+
+# C# formatting rules
+[*.cs]
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# C# naming conventions
+[*.cs]
+# Interfaces must be prefixed with I
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.severity = warning
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.symbols = interface_symbols
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.style = prefix_interface_with_i
+
+dotnet_naming_symbols.interface_symbols.applicable_kinds = interface
+dotnet_naming_symbols.interface_symbols.applicable_accessibilities = *
+
+dotnet_naming_style.prefix_interface_with_i.required_prefix = I
+dotnet_naming_style.prefix_interface_with_i.capitalization = pascal_case
+
+# Types must be PascalCase
+dotnet_naming_rule.types_should_be_pascal_case.severity = warning
+dotnet_naming_rule.types_should_be_pascal_case.symbols = type_symbols
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case_style
+
+dotnet_naming_symbols.type_symbols.applicable_kinds = class,struct,interface,enum
+dotnet_naming_symbols.type_symbols.applicable_accessibilities = *
+
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+# Private fields must be _camelCase
+dotnet_naming_rule.private_fields_should_be_camel_case.severity = warning
+dotnet_naming_rule.private_fields_should_be_camel_case.symbols = private_field_symbols
+dotnet_naming_rule.private_fields_should_be_camel_case.style = camel_case_underscore_style
+
+dotnet_naming_symbols.private_field_symbols.applicable_kinds = field
+dotnet_naming_symbols.private_field_symbols.applicable_accessibilities = private
+
+dotnet_naming_style.camel_case_underscore_style.required_prefix = _
+dotnet_naming_style.camel_case_underscore_style.capitalization = camel_case
+
+# .gitignore
+## Ignore Visual Studio temporary files, build results, and
+## files generated by popular Visual Studio add-ons.
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio cache/options directory
+.vs/
+
+# Rider
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# Build Results of an ATL Project
+[Dd]ebugPS/
+[Rr]eleasePS/
+dlldata.c
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Files built by Visual Studio
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# NuGet Packages
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/[Pp]ackages/*
+# except build/, which is used as an MSBuild target.
+!**/[Pp]ackages/build/
+# Uncomment if necessary however generally it will be regenerated when needed
+#!**/[Pp]ackages/repositories.config
+# NuGet v3's project.json files produces more ignorable files
+*.nuget.props
+*.nuget.targets
+
+# Microsoft Azure Build Output
+csx/
+*.build.csdef
+
+# Microsoft Azure Emulator
+ecf/
+rcf/
+
+# Windows Store app package directories and files
+AppPackages/
+BundleArtifacts/
+Package.StoreAssociation.xml
+_pkginfo.txt
+*.appx
+*.appxbundle
+*.appxupload
+
+# Visual Studio cache files
+# files ending in .cache can be ignored
+*.[Cc]ache
+# but keep track of directories ending in .cache
+!?*.[Cc]ache/
+
+# Others
+ClientBin/
+~$*
+*~
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+*.pfx
+*.publishsettings
+orleans.codegen.cs
+
+# Node.js Tools for Visual Studio
+.ntvs_analysis.dat
+node_modules/
+
+# Visual Studio 6 build log
+*.plg
+
+# Visual Studio 6 workspace options file
+*.opt
+
+# Visual Studio 6 auto-generated workspace file (contains which files were open etc.)
+*.vbw
+
+# Visual Studio LightSwitch build output
+**/*.HTMLClient/GeneratedArtifacts
+**/*.DesktopClient/GeneratedArtifacts
+**/*.DesktopClient/ModelManifest.xml
+**/*.Server/GeneratedArtifacts
+**/*.Server/ModelManifest.xml
+_Pvt_Extensions
+
+# SQL Server files
+*.mdf
+*.ldf
+*.ndf
+
+# Business Intelligence projects
+*.rdl.data
+*.bim.layout
+*.bim_*.settings
+*.rptproj.rsuser
+*- [Bb]ackup.rdl
+*- [Bb]ackup ([0-9]).rdl
+*- [Bb]ackup ([0-9][0-9]).rdl
+
+# Microsoft Fakes
+FakesAssemblies/
+
+# GhostDoc plugin setting file
+*.GhostDoc.xml
+
+# Node.js Tools for Visual Studio
+.ntvs_analysis.dat
+node_modules/
+
+# Python Tools for Visual Studio (PTVS)
+__pycache__/
+*.pyc
+
+# Cake - Uncomment if you are using it
+# tools/**
+# !tools/packages.config
+
+# BenchmarkDotNet
+BenchmarkDotNet.Artifacts/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# StyleCop
+StyleCopReport.xml
+
+# Files built by Visual Studio
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# Local files
+.env
+.env.local
+appsettings.Development.json
+appsettings.Local.json
+
+# Test Results
+TestResults/

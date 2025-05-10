@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Aigent.Memory</RootNamespace>
+    <AssemblyName>Aigent.Memory</AssemblyName>
+    <Description>Memory services for the Aigent Generic Agential System</Description>
+    <TargetFramework>net9.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Aigent.Core\Aigent.Core.csproj" />
+    <ProjectReference Include="..\Aigent.Monitoring\Aigent.Monitoring.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Using LazyCache instead of Microsoft.Extensions.Caching.Memory to avoid vulnerability -->
+    <PackageReference Include="LazyCache" Version="2.4.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.23.1" />
+    <PackageReference Include="StackExchange.Redis" Version="2.7.10" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
+  </ItemGroup>
+
+</Project>
