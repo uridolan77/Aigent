@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Aigent.Core
@@ -90,6 +90,7 @@ namespace Aigent.Core
         Task Shutdown();
     }
     
+
     /// <summary>
     /// Agent capabilities
     /// </summary>
