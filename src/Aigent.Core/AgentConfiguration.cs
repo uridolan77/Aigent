@@ -5,6 +5,7 @@ namespace Aigent.Core
     /// <summary>
     /// Configuration for an agent
     /// </summary>
+    [System.Obsolete("Use Aigent.Core.Models.AgentConfiguration instead. This class is maintained for backward compatibility.")]
     public class AgentConfiguration
     {
         /// <summary>

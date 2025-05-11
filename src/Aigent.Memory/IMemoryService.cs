@@ -6,6 +6,7 @@ namespace Aigent.Memory
     /// <summary>
     /// Interface for agent memory services
     /// </summary>
+    [Obsolete("Use Aigent.Memory.Interfaces.IMemoryService instead. This interface is kept for backward compatibility.")]
     public interface IMemoryService
     {
         /// <summary>
@@ -44,10 +45,12 @@ namespace Aigent.Memory
     /// <summary>
     /// Interface for short-term memory services
     /// </summary>
+    [Obsolete("Use Aigent.Memory.Interfaces.IShortTermMemory instead. This interface is kept for backward compatibility.")]
     public interface IShortTermMemory : IMemoryService { }
 
     /// <summary>
     /// Interface for long-term memory services
     /// </summary>
+    [Obsolete("Use Aigent.Memory.Interfaces.ILongTermMemory instead. This interface is kept for backward compatibility.")]
     public interface ILongTermMemory : IMemoryService { }
 }

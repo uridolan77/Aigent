@@ -8,6 +8,7 @@ namespace Aigent.Memory
     /// <summary>
     /// Factory for creating LazyCache memory services
     /// </summary>
+    [Obsolete("Use Aigent.Memory.MemoryServiceFactory instead. This class is kept for backward compatibility.")]
     public class LazyCacheMemoryServiceFactory : IMemoryServiceFactory
     {
         private readonly IAppCache _cache;

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Aigent.Core;
 
@@ -6,6 +7,7 @@ namespace Aigent.Safety
     /// <summary>
     /// Interface for safety validators
     /// </summary>
+    [Obsolete("Use Aigent.Safety.Interfaces.ISafetyValidator instead. This interface is kept for backward compatibility.")]
     public interface ISafetyValidator
     {
         /// <summary>

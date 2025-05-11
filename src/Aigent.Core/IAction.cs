@@ -7,6 +7,7 @@ namespace Aigent.Core
     /// <summary>
     /// Interface for actions that an agent can perform
     /// </summary>
+    [Obsolete("Use Aigent.Core.Interfaces.IAction instead. This interface is maintained for backward compatibility.")]
     public interface IAction
     {
         /// <summary>

@@ -5,6 +5,7 @@
     <AssemblyName>Aigent.Configuration</AssemblyName>
     <Description>Configuration components for the Aigent Generic Agential System</Description>
     <TargetFramework>net9.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,12 +14,23 @@
     <ProjectReference Include="..\Aigent.Safety\Aigent.Safety.csproj" />
     <ProjectReference Include="..\Aigent.Communication\Aigent.Communication.csproj" />
     <ProjectReference Include="..\Aigent.Monitoring\Aigent.Monitoring.csproj" />
+    <ProjectReference Include="..\Aigent.Orchestration\Aigent.Orchestration.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0-preview.5.24302.9" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.5.24302.9" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.0-preview.5.24302.9" />
+    <PackageReference Include="LazyCache" Version="2.4.0" />
+    <PackageReference Include="LazyCache.AspNetCore" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="Builders\README.md" Pack="true" PackagePath="Builders\" />
+    <None Include="Core\README.md" Pack="true" PackagePath="Core\" />
+    <None Include="DI\README.md" Pack="true" PackagePath="DI\" />
+    <None Include="Registry\README.md" Pack="true" PackagePath="Registry\" />
   </ItemGroup>
 
 </Project>

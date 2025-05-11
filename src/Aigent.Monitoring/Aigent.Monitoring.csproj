@@ -5,11 +5,18 @@
     <AssemblyName>Aigent.Monitoring</AssemblyName>
     <Description>Monitoring and logging components for the Aigent Generic Agential System</Description>
     <TargetFramework>net9.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.5.24302.9" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0-preview.5.24302.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="Logging\README.md" Pack="true" PackagePath="Logging\" />
+    <None Include="Metrics\README.md" Pack="true" PackagePath="Metrics\" />
   </ItemGroup>
 
 </Project>

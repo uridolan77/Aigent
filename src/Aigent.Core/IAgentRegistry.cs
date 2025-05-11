@@ -6,6 +6,7 @@ namespace Aigent.Core
     /// <summary>
     /// Interface for agent registries
     /// </summary>
+    [System.Obsolete("Use Aigent.Core.Interfaces.IAgentRegistry instead. This interface is maintained for backward compatibility.")]
     public interface IAgentRegistry
     {
         /// <summary>

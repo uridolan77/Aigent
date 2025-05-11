@@ -6,6 +6,7 @@ namespace Aigent.Core
     /// <summary>
     /// Represents the state of the environment
     /// </summary>
+    [Obsolete("Use Aigent.Core.Models.EnvironmentState instead. This class is maintained for backward compatibility.")]
     public class EnvironmentState
     {
         /// <summary>

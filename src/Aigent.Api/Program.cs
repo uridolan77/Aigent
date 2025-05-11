@@ -1,6 +1,7 @@
 using System.Text;
 using Aigent.Api.Hubs;
 using Aigent.Api.Middleware;
+using Aigent.Api.Extensions;
 using Aigent.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,9 @@ builder.Services.AddApiVersioning(options =>
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.ReportApiVersions = true;
 });
+
+// Add Aigent API services
+builder.Services.AddAigentApi(builder.Configuration);
 
 // Configure JWT authentication
 builder.Services.AddAuthentication(options =>
@@ -45,7 +49,7 @@ builder.Services.AddAuthentication(options =>
             var accessToken = context.Request.Query["access_token"];
             var path = context.HttpContext.Request.Path;
 
-            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs", StringComparison.OrdinalIgnoreCase))
             {
                 context.Token = accessToken;
             }

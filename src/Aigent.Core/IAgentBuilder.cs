@@ -3,6 +3,7 @@ namespace Aigent.Core
     /// <summary>
     /// Interface for agent builders
     /// </summary>
+    [System.Obsolete("Use Aigent.Core.Interfaces.IAgentBuilder instead. This interface is maintained for backward compatibility.")]
     public interface IAgentBuilder
     {
         /// <summary>

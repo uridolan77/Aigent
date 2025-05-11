@@ -5,6 +5,7 @@ namespace Aigent.Core
     /// <summary>
     /// Interface for memory services
     /// </summary>
+    [System.Obsolete("Use Aigent.Core.Interfaces.IMemoryService instead. This interface is maintained for backward compatibility.")]
     public interface IMemoryService
     {
         /// <summary>

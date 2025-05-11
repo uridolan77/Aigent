@@ -38,6 +38,7 @@ namespace Aigent.Core
     /// <summary>
     /// Represents the core agent interface with lifecycle management
     /// </summary>
+    [Obsolete("Use Aigent.Core.Interfaces.IAgent instead. This interface is maintained for backward compatibility.")]
     public interface IAgent : IDisposable
     {
         /// <summary>

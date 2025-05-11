@@ -3,6 +3,7 @@ namespace Aigent.Core
     /// <summary>
     /// Types of agents
     /// </summary>
+    [System.Obsolete("Use Aigent.Core.Models.AgentType instead. This enum is maintained for backward compatibility.")]
     public enum AgentType
     {
         /// <summary>

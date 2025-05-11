@@ -5,6 +5,7 @@ namespace Aigent.Core
     /// <summary>
     /// Interface for configuration sections
     /// </summary>
+    [System.Obsolete("Use Aigent.Core.Interfaces.IConfigurationSection instead. This interface is maintained for backward compatibility.")]
     public interface IConfigurationSection
     {
         /// <summary>
